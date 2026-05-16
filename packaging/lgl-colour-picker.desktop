@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LGL Simple Colour Picker
+Comment=Pick screen colours and copy ready-to-paste values
+Exec=lgl-colour-picker
+Icon=lgl-colour-picker
+Type=Application
+Categories=Utility;
+Keywords=colour;color;picker;hex;rgb;rgba;
