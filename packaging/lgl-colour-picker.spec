@@ -1,5 +1,5 @@
 Name:           lgl-colour-picker
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        Simple Qt colour picker with clipboard-ready formats
 
@@ -52,6 +52,11 @@ appstreamcli validate --no-net %{buildroot}%{_datadir}/metainfo/%{name}.metainfo
 %{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 
 %changelog
+* Sat May 16 2026 linuxgamerlife <linuxgamerlife@users.noreply.github.com> - 1.0.1-1
+- Clean up active portal requests, helper processes, and overlays on shutdown
+- Add bounded timeouts for interactive helper processes
+- Address Qt static-analysis feedback for compositor-output parsing
+
 * Sat May 16 2026 linuxgamerlife <linuxgamerlife@users.noreply.github.com> - 1.0.0-1
 - Initial Qt 6/C++ MVP with screen picking, preview, and copyable colour formats
 - Use XDG Desktop Portal color picking first on Wayland

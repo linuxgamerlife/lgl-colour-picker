@@ -8,9 +8,8 @@
     <p>LGL Simple Colour Picker is a small Qt 6 desktop utility for sampling
        a colour from the screen and copying it in ready-to-paste HEX, RGB,
        and RGBA formats.</p>
-    <p>Version 1.0.0 is an MVP release with portal-first Wayland colour
-       picking, compositor/helper fallbacks where available, native Qt styling,
-       and transparent packaged app icons.</p>
+    <p>Version 1.0.1 keeps the MVP feature set and adds lifecycle cleanup for
+       portal requests, helper processes, and overlays.</p>
   </description>
   <metadata_license>MIT</metadata_license>
   <project_license>MIT</project_license>
@@ -19,6 +18,15 @@
   </developer>
   <url type="homepage">https://github.com/linuxgamerlife/lgl-colour-picker</url>
   <releases>
+    <release version="1.0.1" date="2026-05-16">
+      <description>
+        <ul>
+          <li>Cleaned up active portal requests, helper processes, and overlays on shutdown.</li>
+          <li>Added bounded timeouts for interactive helper processes.</li>
+          <li>Addressed Qt static-analysis feedback for compositor-output parsing.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0" date="2026-05-16">
       <description>
         <ul>

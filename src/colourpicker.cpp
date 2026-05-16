@@ -32,6 +32,11 @@
 #include <QHBoxLayout>
 
 namespace {
+constexpr int PROCESS_START_TIMEOUT_MS = 1000;
+constexpr int PROCESS_FINISH_TIMEOUT_MS = 3000;
+constexpr int INTERACTIVE_PICK_TIMEOUT_MS = 30000;
+constexpr int PORTAL_CALL_TIMEOUT_MS = 5000;
+
 bool copyWithProcess(const QString& program, const QStringList& arguments, const QString& text) {
     if (!QFileInfo::exists(program))
         return false;
@@ -40,12 +45,12 @@ bool copyWithProcess(const QString& program, const QStringList& arguments, const
     process.setProgram(program);
     process.setArguments(arguments);
     process.start(QIODevice::WriteOnly);
-    if (!process.waitForStarted(1000))
+    if (!process.waitForStarted(PROCESS_START_TIMEOUT_MS))
         return false;
 
     process.write(text.toUtf8());
     process.closeWriteChannel();
-    if (!process.waitForFinished(2000)) {
+    if (!process.waitForFinished(PROCESS_FINISH_TIMEOUT_MS)) {
         process.kill();
         process.waitForFinished();
         return false;
@@ -135,12 +140,14 @@ QColor pickColourWithGrimSlurp(bool* cancelled) {
     slurp.setProgram(slurpPath);
     slurp.setArguments({QStringLiteral("-p")});
     slurp.start();
-    if (!slurp.waitForStarted(1000))
+    if (!slurp.waitForStarted(PROCESS_START_TIMEOUT_MS))
         return {};
 
-    if (!slurp.waitForFinished(-1)) {
+    if (!slurp.waitForFinished(INTERACTIVE_PICK_TIMEOUT_MS)) {
         slurp.kill();
         slurp.waitForFinished();
+        if (cancelled)
+            *cancelled = true;
         return {};
     }
 
@@ -176,10 +183,10 @@ QColor pickColourWithGrimSlurp(bool* cancelled) {
         outputPath
     });
     grim.start();
-    if (!grim.waitForStarted(1000))
+    if (!grim.waitForStarted(PROCESS_START_TIMEOUT_MS))
         return {};
 
-    if (!grim.waitForFinished(3000)) {
+    if (!grim.waitForFinished(PROCESS_FINISH_TIMEOUT_MS)) {
         grim.kill();
         grim.waitForFinished();
         return {};
@@ -309,6 +316,10 @@ ColourPicker::ColourPicker(QWidget* parent)
     setCurrentColour(m_currentColour);
 }
 
+ColourPicker::~ColourPicker() {
+    cleanupActivePick();
+}
+
 ColourPicker::FormatRow ColourPicker::makeFormatRow(const QString& labelText, QGridLayout* layout, int row) {
     auto* label = new QLabel(labelText, this);
     label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -370,6 +381,37 @@ void ColourPicker::startScreenPick() {
     m_overlay->setFocus();
 }
 
+void ColourPicker::cleanupActivePick() {
+    if (!m_activeRequestPath.isEmpty()) {
+        QDBusConnection::sessionBus().disconnect(QStringLiteral("org.freedesktop.portal.Desktop"),
+                                                 m_activeRequestPath,
+                                                 QStringLiteral("org.freedesktop.portal.Request"),
+                                                 QStringLiteral("Response"),
+                                                 this,
+                                                 SLOT(onPortalResponse(uint,QVariantMap)));
+        m_activeRequestPath.clear();
+    }
+
+    if (m_pickProcess) {
+        disconnect(m_pickProcess, nullptr, this, nullptr);
+        if (m_pickProcess->state() != QProcess::NotRunning) {
+            m_pickProcess->terminate();
+            if (!m_pickProcess->waitForFinished(PROCESS_FINISH_TIMEOUT_MS)) {
+                m_pickProcess->kill();
+                m_pickProcess->waitForFinished();
+            }
+        }
+        m_pickProcess->deleteLater();
+        m_pickProcess = nullptr;
+    }
+
+    if (m_overlay) {
+        disconnect(m_overlay, nullptr, this, nullptr);
+        m_overlay->close();
+        m_overlay = nullptr;
+    }
+}
+
 bool ColourPicker::startPortalPick() {
     QDBusConnection bus = QDBusConnection::sessionBus();
     if (!bus.isConnected())
@@ -400,7 +442,7 @@ bool ColourPicker::startPortalPick() {
         return false;
     }
 
-    QDBusMessage reply = bus.call(message, QDBus::Block, 5000);
+    QDBusMessage reply = bus.call(message, QDBus::Block, PORTAL_CALL_TIMEOUT_MS);
     if (reply.type() == QDBusMessage::ErrorMessage) {
         bus.disconnect(QStringLiteral("org.freedesktop.portal.Desktop"),
                        requestPath,
@@ -451,7 +493,7 @@ bool ColourPicker::startProcessPick(const QString& program, const QStringList& a
         m_pickProcess = nullptr;
     });
     process->start();
-    if (!process->waitForStarted(1000)) {
+    if (!process->waitForStarted(PROCESS_START_TIMEOUT_MS)) {
         process->deleteLater();
         return false;
     }
@@ -548,7 +590,8 @@ void ColourPicker::onProcessPickFinished(int exitCode, QProcess::ExitStatus exit
     }
 
     QColor colour;
-    const QStringList words = output.split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);
+    static const QRegularExpression whitespace(QStringLiteral("\\s+"));
+    const QStringList words = output.split(whitespace, Qt::SkipEmptyParts);
     for (const QString& word : words) {
         QColor candidate(word.trimmed());
         if (candidate.isValid()) {

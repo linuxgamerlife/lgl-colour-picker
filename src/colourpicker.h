@@ -32,6 +32,7 @@ class ColourPicker : public QDialog {
     Q_OBJECT
 public:
     explicit ColourPicker(QWidget* parent = nullptr);
+    ~ColourPicker() override;
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
@@ -50,6 +51,7 @@ private:
     QString rgbText() const;
     QString rgbaText() const;
     void updateCopyButtons();
+    void cleanupActivePick();
     bool startPortalPick();
     bool startWaylandFallbackPick();
     bool startProcessPick(const QString& program, const QStringList& arguments);

@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     app.setApplicationName("lgl-colour-picker");
     app.setApplicationDisplayName("LGL Simple Colour Picker");
     app.setDesktopFileName("lgl-colour-picker");
-    app.setApplicationVersion("1.0.0");
+    app.setApplicationVersion("1.0.1");
     app.setWindowIcon(QIcon(QStringLiteral(":/icons/packaging/icons/256x256/lgl-colour-picker.png")));
 
     QFont appFont = app.font();

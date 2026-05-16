@@ -1,11 +1,12 @@
-# LGL Simple Colour Picker v1.0.0
+# LGL Simple Colour Picker v1.0.1
 
 LGL Simple Colour Picker is a small Qt 6 desktop utility for sampling a colour
 from the screen and copying it in ready-to-paste formats.
 
-Version 1.0.0 is the first MVP release. It focuses on fast screen picking,
+Version 1.0.1 is the current release. It focuses on fast screen picking,
 format display, and clipboard copy while keeping the executable and package
-name as `lgl-colour-picker`.
+name as `lgl-colour-picker`. It also includes lifecycle cleanup fixes for
+portal requests and helper processes.
 
 ## Features
 
@@ -25,7 +26,7 @@ name as `lgl-colour-picker`.
 
 The original project notes include future ideas such as smart paste detection,
 expanded format conversion, enlarged hover preview, original/current colour
-comparison, and contrast checking. Those are not part of v1.0.0.
+comparison, and contrast checking. Those are not part of v1.0.x.
 
 ## Runtime Dependencies
 
@@ -47,6 +48,21 @@ Screenshot portal's color picker. The app also has helper fallbacks:
 On a fresh Fedora Workstation or KDE install, the packaged app should work after
 installing it through DNF. On a fresh minimal Fedora install, install and
 configure the Wayland portal/backend stack first.
+
+## Install
+
+The recommended install path on Fedora is COPR:
+
+```sh
+sudo dnf copr enable linuxgamerlife/lgl-colour-picker
+sudo dnf install lgl-colour-picker
+```
+
+Then run it from your app launcher or with:
+
+```sh
+lgl-colour-picker
+```
 
 ## Build From Source
 
