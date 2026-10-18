@@ -16,6 +16,11 @@ The project is migrating from Qt 6 to a GTK 4/gtkmm application following
   `LGL_COLOUR_PICKER_ENABLE_SANITIZERS`.
 - GTK application code is under `gtk/src/`, with pure/tested colour, settings,
   and theme helpers under `gtk/src/core/`; UI code is under `gtk/src/ui/`.
+- `ThemeWatcher` follows the Papercutter implementation: it tracks libadwaita
+  dark/accent changes, GNOME interface settings, and GTK user CSS (including
+  local imports), then reapplies colours, mono font, and the window dark class
+  after a 200 ms debounce. This keeps the picker aligned when the system theme
+  changes while it is running.
 - `style.css`, `HELP.md`, and the 256px icon are bundled in the GResource
   prefix `/com/linuxgamerlife/colourpicker/`.
 - The app ID is now `com.linuxgamerlife.lgl-colour-picker`. New desktop and
@@ -73,10 +78,10 @@ Passed in the `fedora-dev1` distrobox:
 - `appstreamcli validate --no-net` for the new metainfo.
 - CMake install-layout check for binary, metadata, and all four icon sizes.
 - Rebuild and CTest after adding the asynchronous portal picker controller.
+- Rebuild and CTest after porting Papercutter's live system-theme watcher.
 
-Known remaining standard work: full `ThemeWatcher` live reload behavior,
-Alt-tap menu behavior, notices, snapshot smoke test, X11 picker, and the RPM
-source archive flow.
+Known remaining standard work: Alt-tap menu behavior, notices, snapshot smoke
+test, X11 picker, and the RPM source archive flow.
 
 ### 1.0.2 Release Metadata — 2026-10-18
 
