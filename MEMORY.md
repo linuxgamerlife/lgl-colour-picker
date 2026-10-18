@@ -83,8 +83,20 @@ source archive flow.
 - The in-progress GTK migration release is version `1.0.2`, release `1`.
   `gtk/CMakeLists.txt`, AppStream metadata, `CHANGELOG.md`, `README.md`, and
   `packaging/lgl-colour-picker.spec` have been updated together.
-- No RPM or SRPM was created in this session. Metadata, CMake, build, CTest,
-  desktop-file, AppStream, and spec preprocessing validation were run.
+- Before the package build below, metadata, CMake, build, CTest, desktop-file,
+  AppStream, and spec preprocessing validation were run.
+
+### 1.0.2 RPM Artifacts — 2026-10-18
+
+- Built from `lgl-colour-picker-1.0.2.tar.gz` in the `fedora-dev1` distrobox:
+  - `result/lgl-colour-picker-1.0.2-1.fc44.src.rpm`
+  - `result/x86_64/lgl-colour-picker-1.0.2-1.fc44.x86_64.rpm`
+- The binary RPM was rebuilt from the source archive, ran all three CTest
+  tests, and validated its installed desktop and AppStream metadata.
+- RPM digest verification passed. The final RPM contains the binary, GTK
+  desktop metadata, hicolor icons, licence, and README/CHANGELOG/HELP docs.
+  Its explicit portal requirement is `xdg-desktop-portal`; it has no Qt,
+  `grim`, `slurp`, or `wl-clipboard` requirement.
 
 ## Project
 

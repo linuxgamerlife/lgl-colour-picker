@@ -41,7 +41,7 @@ appstreamcli validate --no-net %{buildroot}%{_datadir}/metainfo/com.linuxgamerli
 
 %files
 %license LICENSE
-%doc README.md CHANGELOG.md
+%doc README.md CHANGELOG.md HELP.md
 %{_bindir}/%{name}
 %{_datadir}/applications/com.linuxgamerlife.%{name}.desktop
 %{_datadir}/metainfo/com.linuxgamerlife.%{name}.metainfo.xml
