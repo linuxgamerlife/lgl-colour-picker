@@ -9,3 +9,6 @@
 /*.tar.gz
 /*.rpm
 /*.src.rpm
+
+# Other
+MEMORY.md
