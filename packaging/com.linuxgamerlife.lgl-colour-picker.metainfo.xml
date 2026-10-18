@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.linuxgamerlife.lgl-colour-picker</id>
+  <name>LGL Simple Colour Picker</name>
+  <summary>Pick and copy screen colours</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description><p>LGL Simple Colour Picker samples a screen colour and copies it in HEX, RGB, and RGBA formats.</p></description>
+  <launchable type="desktop-id">com.linuxgamerlife.lgl-colour-picker.desktop</launchable>
+  <developer id="com.linuxgamerlife"><name>LinuxGamerLife</name></developer>
+  <url type="homepage">https://github.com/linuxgamerlife/lgl-colour-picker</url>
+  <provides><id>io.github.linuxgamerlife.lgl-colour-picker</id><id>lgl-colour-picker.desktop</id></provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.0.2" date="2026-10-18"><description><p>Migrates the application to GTK 4, adds portal-based screen picking, and follows the shared LGL application menu and title-bar conventions.</p></description></release>
+    <release version="1.0.1" date="2026-05-16"><description><p>Improved picker lifecycle cleanup.</p></description></release>
+  </releases>
+</component>

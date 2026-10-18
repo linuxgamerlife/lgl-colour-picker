@@ -1,0 +1,16 @@
+@define-color cp_surface color-mix(in srgb, @window_fg_color 4%, @window_bg_color);
+@define-color cp_sunken color-mix(in srgb, @window_fg_color 2%, @window_bg_color);
+@define-color cp_border color-mix(in srgb, @window_fg_color 16%, @window_bg_color);
+@define-color cp_hover color-mix(in srgb, @window_fg_color 8%, @window_bg_color);
+@define-color cp_muted color-mix(in srgb, @window_fg_color 68%, @window_bg_color);
+@define-color cp_subtle color-mix(in srgb, @window_fg_color 42%, @window_bg_color);
+:root { --window-radius: 0px; }
+.body { padding: 12px; }.mono, .wordmark, .section-label { font-family: "Adwaita Mono", "JetBrains Mono", monospace; }
+.mono { font-feature-settings: "tnum"; }.wordmark { font-weight: 600; letter-spacing: 0.08em; }
+.muted { color: @cp_muted; }.section-label { font-size: 0.78em; font-weight: 600; letter-spacing: 0.12em; color: @cp_muted; }
+.cp-card { background-color: @cp_surface; border: 1px solid @cp_border; border-radius: 10px; padding: 14px; }
+.colour-preview { min-width: 112px; min-height: 112px; border: 1px solid @cp_border; border-radius: 6px; }
+button.cp-primary { background-image: none; background-color: @accent_bg_color; color: @accent_fg_color; border-color: @accent_bg_color; font-weight: 600; }
+button.cp-primary:hover { background-color: color-mix(in srgb, @accent_bg_color 85%, @window_fg_color); }
+button.cp-primary:disabled { opacity: 0.45; }
+.cp-notice { margin: 0 0 16px 0; padding: 9px 16px; border-radius: 8px; border: 1px solid @cp_border; background-color: @cp_surface; color: @window_fg_color; box-shadow: 0 2px 10px alpha(black, 0.18); }

@@ -1,0 +1,11 @@
+# CMake build trees
+/build/
+/build-*/
+/gtk/build/
+/gtk/build-*/
+
+# Release artifacts
+/result/
+/*.tar.gz
+/*.rpm
+/*.src.rpm

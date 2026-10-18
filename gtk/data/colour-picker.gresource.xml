@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources><gresource prefix="/com/linuxgamerlife/colourpicker">
+  <file>style.css</file><file>HELP.md</file>
+  <file alias="lgl-colour-picker.png">packaging/icons/256x256/lgl-colour-picker.png</file>
+</gresource></gresources>

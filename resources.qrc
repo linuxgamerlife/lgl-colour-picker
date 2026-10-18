@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>packaging/icons/256x256/lgl-colour-picker.png</file>
+    </qresource>
+</RCC>
