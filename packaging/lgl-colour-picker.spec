@@ -14,6 +14,7 @@ BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(gtkmm-4.0) >= 4.20
 BuildRequires:  pkgconfig(libadwaita-1) >= 1.6
 BuildRequires:  glib2-devel
+BuildRequires:  json-glib-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  appstream
 

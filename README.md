@@ -30,10 +30,11 @@ from the installed RPM.
 
 ## Install
 
-The recommended Fedora install path is COPR:
+The recommended Fedora install path is the
+[LGL Toolkit COPR](https://copr.fedorainfracloud.org/coprs/linuxgamerlife/lgl-toolkit/):
 
 ```sh
-sudo dnf copr enable linuxgamerlife/lgl-colour-picker
+sudo dnf copr enable linuxgamerlife/lgl-toolkit
 sudo dnf install lgl-colour-picker
 ```
 
@@ -49,19 +50,20 @@ Build in the target Fedora development container:
 
 ```sh
 distrobox enter fedora-dev1
-sudo dnf install cmake gcc-c++ ninja-build gtkmm4.0-devel libadwaita-devel \
-  glib2-devel desktop-file-utils appstream
-cmake -S . -B build-gtk -G Ninja -DBUILD_TESTING=ON
-cmake --build build-gtk
-ctest --test-dir build-gtk --output-on-failure
+sudo dnf install cmake gcc-c++ gtkmm4.0-devel libadwaita-devel glib2-devel \
+  json-glib-devel desktop-file-utils appstream
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake --build build -j$(nproc)
+ctest --test-dir build --output-on-failure
 ```
 
 Run the development build with:
 
 ```sh
-./build-gtk/lgl-colour-picker
+./build/lgl-colour-picker
 ```
 
-The legacy Qt sources remain in the repository for reference during the
-migration, but the root CMake build and package use only the GTK application in
-`gtk/`.
+The maintained GTK application lives in `src/`, its resources in `data/`, and
+its tests in `tests/`. The root `CMakeLists.txt` builds and packages that
+application directly. `legacy/qt/` is a read-only historical reference; it is
+not built, tested, packaged, or a runtime dependency.

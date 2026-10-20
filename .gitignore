@@ -1,8 +1,6 @@
-# CMake build trees
+# Disposable CMake build trees
 /build/
 /build-*/
-/gtk/build/
-/gtk/build-*/
 
 # Release artifacts
 /result/
